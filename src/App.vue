@@ -1,47 +1,40 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <router-link
+    v-for="(item, index) in routeList"
+    :key="index"
+    :to="item.path"
+    >{{ filter(item.path) }}</router-link
+  >
+    <router-view class="right_content"></router-view>
 </template>
-
+<script>
+import { reactive } from 'vue'
+import {routes} from "./router/index"
+export default{
+    setup(){
+        let routeList=reactive(routes)
+        function filter(item){
+            return item.replace("/","")
+        }
+        return{
+            routeList,
+            filter
+        }
+    }
+}
+</script>
 <style scoped>
-header {
-  line-height: 1.5;
+a {
+  color: orange;
+  padding: 20px;
+  font-size: 16px;
+  text-decoration: none;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+a:focus {
+  color: green;
 }
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.right_content {
+  margin-top: 40px;
+  margin-left: 20px;
 }
 </style>
